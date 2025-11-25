@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost/backend/api';
+const API_BASE_URL = 'https://brobie.42web.io/api';
 
 export const api = {
   get: async (endpoint: string, params: Record<string, string> = {}) => {
