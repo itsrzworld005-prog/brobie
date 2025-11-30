@@ -22,8 +22,8 @@ const Collections: React.FC = () => {
       setLoading(true);
       try {
         const [productsData, categoriesData] = await Promise.all([
-          api.get(categoryId ? `/products/read.php?category_id=${categoryId}` : '/products/read.php'),
-          api.get('/categories/read.php')
+          api.getProducts(categoryId || undefined),
+          api.getCategories()
         ]);
 
         let filteredProducts = productsData;

@@ -4,7 +4,7 @@ import { Plus, Edit, Trash2 } from "lucide-react";
 
 const Products: React.FC = () => {
     const [products, setProducts] = useState<any[]>([]);
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
     // Simple state for adding product - in real app would be a modal or separate page
     const [showAddForm, setShowAddForm] = useState(false);
     const [newProduct, setNewProduct] = useState({
@@ -23,15 +23,13 @@ const Products: React.FC = () => {
     const fetchData = async () => {
         try {
             const [productsData, categoriesData] = await Promise.all([
-                api.get('/products/read.php'),
-                api.get('/categories/read.php')
+                api.getProducts(),
+                api.getCategories()
             ]);
             setProducts(productsData);
             setCategories(categoriesData);
         } catch (error) {
             console.error("Error fetching data:", error);
-        } finally {
-            setLoading(false);
         }
     };
 

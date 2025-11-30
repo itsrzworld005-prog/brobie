@@ -12,7 +12,7 @@ const Profile: React.FC = () => {
         if (user) {
             const fetchOrders = async () => {
                 try {
-                    const data = await api.get(`/orders/read.php?user_id=${user.id}`);
+                    const data = await api.getOrders(user.id);
                     setOrders(data);
                 } catch (error) {
                     console.error("Error fetching orders:", error);
@@ -54,8 +54,8 @@ const Profile: React.FC = () => {
                                         </div>
                                         <div className="flex items-center gap-4">
                                             <span className={`px-3 py-1 rounded-full text-xs font-medium capitalize ${order.status === 'delivered' ? 'bg-green-100 text-green-800' :
-                                                    order.status === 'cancelled' ? 'bg-red-100 text-red-800' :
-                                                        'bg-yellow-100 text-yellow-800'
+                                                order.status === 'cancelled' ? 'bg-red-100 text-red-800' :
+                                                    'bg-yellow-100 text-yellow-800'
                                                 }`}>
                                                 {order.status}
                                             </span>

@@ -4,17 +4,15 @@ import { Eye } from "lucide-react";
 
 const Orders: React.FC = () => {
     const [orders, setOrders] = useState<any[]>([]);
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const data = await api.get('/orders/read.php');
+                const data = await api.getAllOrders();
                 setOrders(data);
             } catch (error) {
                 console.error("Error fetching orders:", error);
-            } finally {
-                setLoading(false);
             }
         };
         fetchOrders();
@@ -60,8 +58,8 @@ const Orders: React.FC = () => {
                                         value={order.status}
                                         onChange={(e) => handleStatusChange(order.id, e.target.value)}
                                         className={`px-2 py-1 rounded-full text-xs font-medium capitalize border-none focus:ring-2 focus:ring-offset-1 ${order.status === 'delivered' ? 'bg-green-100 text-green-800 focus:ring-green-500' :
-                                                order.status === 'cancelled' ? 'bg-red-100 text-red-800 focus:ring-red-500' :
-                                                    'bg-yellow-100 text-yellow-800 focus:ring-yellow-500'
+                                            order.status === 'cancelled' ? 'bg-red-100 text-red-800 focus:ring-red-500' :
+                                                'bg-yellow-100 text-yellow-800 focus:ring-yellow-500'
                                             }`}
                                     >
                                         <option value="pending">Pending</option>

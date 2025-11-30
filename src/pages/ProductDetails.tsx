@@ -17,8 +17,8 @@ const ProductDetails: React.FC = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const products = await api.get('/products/read.php');
-                const found = products.find((p: any) => p.id == id);
+                if (!id) return;
+                const found = await api.getProduct(id);
                 setProduct(found);
             } catch (error) {
                 console.error("Error fetching product:", error);
@@ -95,8 +95,8 @@ const ProductDetails: React.FC = () => {
                                             key={color}
                                             onClick={() => setSelectedColor(color)}
                                             className={`px-4 py-2 border text-sm font-medium rounded-md transition-all ${selectedColor === color
-                                                    ? 'border-gray-900 bg-gray-900 text-white'
-                                                    : 'border-gray-200 text-gray-900 hover:border-gray-900'
+                                                ? 'border-gray-900 bg-gray-900 text-white'
+                                                : 'border-gray-200 text-gray-900 hover:border-gray-900'
                                                 }`}
                                         >
                                             {color}
@@ -113,8 +113,8 @@ const ProductDetails: React.FC = () => {
                                             key={size}
                                             onClick={() => setSelectedSize(size)}
                                             className={`w-12 h-12 flex items-center justify-center border text-sm font-medium rounded-md transition-all ${selectedSize === size
-                                                    ? 'border-gray-900 bg-gray-900 text-white'
-                                                    : 'border-gray-200 text-gray-900 hover:border-gray-900'
+                                                ? 'border-gray-900 bg-gray-900 text-white'
+                                                : 'border-gray-200 text-gray-900 hover:border-gray-900'
                                                 }`}
                                         >
                                             {size}
@@ -135,8 +135,8 @@ const ProductDetails: React.FC = () => {
                             <button
                                 onClick={toggleWishlist}
                                 className={`p-4 border rounded-lg transition-colors ${isInWishlist(product.id)
-                                        ? 'border-red-200 bg-red-50 text-red-600'
-                                        : 'border-gray-200 text-gray-900 hover:border-gray-900'
+                                    ? 'border-red-200 bg-red-50 text-red-600'
+                                    : 'border-gray-200 text-gray-900 hover:border-gray-900'
                                     }`}
                             >
                                 <Star size={24} fill={isInWishlist(product.id) ? "currentColor" : "none"} />

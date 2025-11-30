@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Menu, X, ShoppingBag, User, Search, Heart, LogOut } from "lucide-react";
+import { Menu, X, ShoppingBag, User, Search, Heart } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
@@ -34,8 +34,8 @@ const Navigation = () => {
   return (
     <nav
       className={`fixed w-full z-50 transition-all duration-500 ${scrolled
-          ? "bg-white/95 backdrop-blur-md shadow-sm"
-          : "bg-transparent"
+        ? "bg-white/95 backdrop-blur-md shadow-sm"
+        : "bg-transparent"
         }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -46,7 +46,7 @@ const Navigation = () => {
               <img
                 src="/brob_ie.png"
                 alt="Brob ie logo"
-                className="h-12 sm:h-12 lg:h-14 w-auto object-contain drop-shadow-md contrast-125"
+                className="h-16 sm:h-20 w-auto object-contain drop-shadow-md contrast-125"
                 loading="eager"
                 decoding="async"
               />
@@ -54,31 +54,15 @@ const Navigation = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-12">
-            <Link
-              to="/"
-              className="text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide"
-            >
-              HOME
-            </Link>
-            <Link
-              to="/new-arrivals"
-              className="text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide"
-            >
-              NEW ARRIVALS
-            </Link>
-            <Link
-              to="/collections"
-              className="text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide"
-            >
-              COLLECTIONS
-            </Link>
-            <Link
-              to="/about"
-              className="text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide"
-            >
-              ABOUT
-            </Link>
+          <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
+            <Link to="/" className="text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide uppercase">Home</Link>
+            <Link to="/collections?category=vortex" className="text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide uppercase">Vortex</Link>
+            <Link to="/collections?category=hoodies-and-sweatshirt" className="text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide uppercase">Hoodies</Link>
+            <Link to="/collections?category=jackets" className="text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide uppercase">Jackets</Link>
+            <Link to="/collections?category=t-shirt" className="text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide uppercase">T-Shirts</Link>
+            <Link to="/collections?category=bottoms" className="text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide uppercase">Bottoms</Link>
+            <Link to="/collections?category=headwear" className="text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide uppercase">Headwear</Link>
+            <Link to="/collections?category=accessories" className="text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide uppercase">Accessories</Link>
           </div>
 
           {/* Desktop Icons */}
@@ -183,31 +167,59 @@ const Navigation = () => {
         <div className="px-4 pt-4 pb-6 space-y-4">
           <Link
             to="/"
-            className="block text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide py-2"
+            className="block text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide py-2 uppercase"
             onClick={() => setMobileMenuOpen(false)}
           >
-            HOME
+            Home
           </Link>
           <Link
-            to="/new-arrivals"
-            className="block text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide py-2"
-            onClick={() => setMobileMenuOpen(false)} // close menu when clicked
-          >
-            NEW ARRIVALS
-          </Link>
-          <Link
-            to="/collections"
-            className="block text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide py-2"
+            to="/collections?category=vortex"
+            className="block text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide py-2 uppercase"
             onClick={() => setMobileMenuOpen(false)}
           >
-            COLLECTIONS
+            Vortex
           </Link>
           <Link
-            to="/about"
-            className="block text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide py-2"
+            to="/collections?category=hoodies-and-sweatshirt"
+            className="block text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide py-2 uppercase"
             onClick={() => setMobileMenuOpen(false)}
           >
-            ABOUT
+            Hoodies
+          </Link>
+          <Link
+            to="/collections?category=jackets"
+            className="block text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide py-2 uppercase"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Jackets
+          </Link>
+          <Link
+            to="/collections?category=t-shirt"
+            className="block text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide py-2 uppercase"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            T-Shirts
+          </Link>
+          <Link
+            to="/collections?category=bottoms"
+            className="block text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide py-2 uppercase"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Bottoms
+          </Link>
+          <Link
+            to="/collections?category=headwear"
+            className="block text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide py-2 uppercase"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Headwear
+          </Link>
+          <Link
+            to="/collections?category=accessories"
+            className="block text-sm font-medium text-gray-900 hover:text-red-600 transition-colors tracking-wide py-2 uppercase"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Accessories
           </Link>
 
           {/* Icons */}

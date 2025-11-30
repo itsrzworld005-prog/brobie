@@ -11,8 +11,8 @@ const Home: React.FC = () => {
     const fetchData = async () => {
       try {
         const [productsData, categoriesData] = await Promise.all([
-          api.get('/products/read.php'),
-          api.get('/categories/read.php')
+          api.getProducts(),
+          api.getCategories()
         ]);
         setProducts(productsData);
         setCategories(categoriesData);

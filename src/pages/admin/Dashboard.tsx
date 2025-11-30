@@ -14,8 +14,8 @@ const Dashboard: React.FC = () => {
         const fetchStats = async () => {
             try {
                 const [products, orders] = await Promise.all([
-                    api.get('/products/read.php'),
-                    api.get('/orders/read.php')
+                    api.getProducts(),
+                    api.getAllOrders()
                 ]);
 
                 const revenue = orders.reduce((acc: number, order: any) => acc + Number(order.total_amount), 0);

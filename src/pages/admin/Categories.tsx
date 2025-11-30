@@ -4,17 +4,15 @@ import { Plus, Edit, Trash2 } from "lucide-react";
 
 const Categories: React.FC = () => {
     const [categories, setCategories] = useState<any[]>([]);
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const data = await api.get('/categories/read.php');
+                const data = await api.getCategories();
                 setCategories(data);
             } catch (error) {
                 console.error("Error fetching categories:", error);
-            } finally {
-                setLoading(false);
             }
         };
         fetchCategories();
