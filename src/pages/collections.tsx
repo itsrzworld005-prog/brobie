@@ -7,7 +7,7 @@ import { useWishlist } from "../context/WishlistContext";
 const Collections: React.FC = () => {
   const { search } = useLocation();
   const params = new URLSearchParams(search);
-  const categoryId = params.get("category");
+  const categorySlug = params.get("category");
   const searchQuery = params.get("search");
 
   const [products, setProducts] = useState<any[]>([]);
@@ -22,7 +22,7 @@ const Collections: React.FC = () => {
       setLoading(true);
       try {
         const [productsData, categoriesData] = await Promise.all([
-          api.getProducts(categoryId || undefined),
+          api.getProducts(categorySlug || undefined),
           api.getCategories()
         ]);
 
@@ -44,7 +44,7 @@ const Collections: React.FC = () => {
       }
     };
     fetchData();
-  }, [categoryId, searchQuery]);
+  }, [categorySlug, searchQuery]);
 
   const handleAddToCart = (e: React.MouseEvent, product: any) => {
     e.preventDefault();
@@ -72,12 +72,12 @@ const Collections: React.FC = () => {
   if (loading) return <div className="min-h-screen pt-28 text-center">Loading...</div>;
 
   return (
-    <div className="min-h-screen bg-white pt-28 pb-16">
+    <div className="min-h-screen bg-white pt-40 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">
             {searchQuery ? `Search results for "${searchQuery}"` :
-              categoryId ? categories.find(c => c.id == categoryId)?.name || "Collection" : "All Collections"}
+              categorySlug ? categories.find(c => c.slug == categorySlug)?.name || "Collection" : "All Collections"}
           </h1>
           <p className="text-gray-600 mt-2">
             {products.length} item{products.length === 1 ? "" : "s"} found
@@ -85,10 +85,10 @@ const Collections: React.FC = () => {
         </div>
 
         {/* Categories Grid (only show if no specific category selected) */}
-        {!categoryId && !searchQuery && (
+        {!categorySlug && !searchQuery && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             {categories.map((c) => (
-              <Link key={c.id} to={`/collections?category=${c.id}`} className="group relative bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
+              <Link key={c.id} to={`/collections?category=${c.slug}`} className="group relative bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
                 <div className="aspect-[16/10] relative bg-gray-100">
                   <img src={c.image} alt={c.name} className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={(e) => { const t = e.currentTarget as HTMLImageElement; t.onerror = null; t.src = `https://picsum.photos/seed/${c.id}/1200/800`; }} />
                 </div>

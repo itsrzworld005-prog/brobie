@@ -1,16 +1,38 @@
 import { supabase } from '../lib/supabase';
 
 export const api = {
-  getProducts: async (categoryId?: string) => {
-    let query = supabase.from('products').select('*');
+  getProducts: async (categorySlug?: string) => {
+    let query = supabase.from('products').select('*, categories!inner(slug, name)');
     
-    if (categoryId) {
-      query = query.eq('category_id', categoryId);
+    if (categorySlug) {
+      query = query.eq('categories.slug', categorySlug);
     }
     
     const { data, error } = await query;
     if (error) throw error;
     return data || [];
+  },
+
+  getReviews: async (productId: string | number) => {
+    const { data, error } = await supabase
+      .from('reviews')
+      .select('*')
+      .eq('product_id', productId)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+    return data || [];
+  },
+
+  addReview: async (review: { product_id: string | number, user_id: string, user_name: string, rating: number, comment: string }) => {
+    const { data, error } = await supabase
+      .from('reviews')
+      .insert(review)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
   },
 
   getProduct: async (id: string) => {
@@ -79,12 +101,30 @@ export const api = {
   getOrders: async (userId: string | number) => {
     const { data, error } = await supabase
       .from('orders')
-      .select('*, items:order_items(*)')
+      .select(`
+        *,
+        items:order_items (
+          *,
+          product:products (
+            name,
+            image
+          )
+        )
+      `)
       .eq('user_id', userId)
       .order('created_at', { ascending: false });
-      
+    
     if (error) throw error;
-    return data || [];
+
+    // Map the response to flatten the structure for the UI
+    return data?.map((order: any) => ({
+      ...order,
+      items: order.items.map((item: any) => ({
+        ...item,
+        product_name: item.product?.name || 'Unknown Product',
+        product_image: item.product?.image || null
+      }))
+    })) || [];
   },
 
   getAllOrders: async () => {

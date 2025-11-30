@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import { api } from "../services/api";
+import { useToast } from "../context/ToastContext";
 
 const Checkout: React.FC = () => {
     const { cart, cartTotal, clearCart } = useCart();
@@ -10,6 +11,7 @@ const Checkout: React.FC = () => {
     const navigate = useNavigate();
     const [address, setAddress] = useState("");
     const [loading, setLoading] = useState(false);
+    const { showToast } = useToast();
 
     if (!isAuthenticated) {
         navigate('/login');
@@ -25,8 +27,10 @@ const Checkout: React.FC = () => {
         e.preventDefault();
         setLoading(true);
         try {
+            if (!user?.id) throw new Error("User not authenticated");
+
             await api.createOrder({
-                user_id: user?.id,
+                user_id: String(user.id),
                 total_amount: cartTotal,
                 shipping_address: address,
                 items: cart.map(item => ({
@@ -37,18 +41,18 @@ const Checkout: React.FC = () => {
                 }))
             });
             clearCart();
-            alert("Order placed successfully!");
+            showToast("Order placed successfully!", "success");
             navigate('/orders'); // Or profile
         } catch (error) {
             console.error("Error placing order:", error);
-            alert("Failed to place order. Please try again.");
+            showToast("Failed to place order. Please try again.", "error");
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-white pt-28 pb-16">
+        <div className="min-h-screen bg-white pt-40 pb-16">
             <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h1 className="text-3xl font-bold text-gray-900 mb-8">Checkout</h1>
 

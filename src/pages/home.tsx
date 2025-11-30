@@ -25,6 +25,16 @@ const Home: React.FC = () => {
 
   const newArrivals = products.slice(0, 4);
   const featuredCategories = categories.slice(0, 3);
+
+  function slugify(text: string): string {
+  return text
+    .toLowerCase()                         // convert to lowercase
+    .trim()                                // remove spaces around
+    .replace(/[\s\_]+/g, "-")              // spaces & underscores → -
+    .replace(/[^a-z0-9\-]/g, "")           // remove all non-url-safe chars
+    .replace(/\-+/g, "-");                 // collapse multiple dashes
+}
+
   return (
     <div>
       <HeroSection />
@@ -41,7 +51,7 @@ const Home: React.FC = () => {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredCategories.map((c) => (
-              <Link key={c.id} to={`/collections?category=${c.id}`} className="group relative bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
+              <Link key={c.id} to={`/collections?category=${slugify(c.name)}`} className="group relative bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
                 <div className="aspect-[16/10] relative bg-gray-100">
                   <img src={c.image} alt={c.name} className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={(e) => { const t = e.currentTarget as HTMLImageElement; t.onerror = null; t.src = `https://picsum.photos/seed/${c.id}/1200/800`; }} />
                   {/* <span className="absolute top-3 right-3 bg-gray-900 text-white text-xs font-bold tracking-widest px-3 py-1 rounded-full">{c.count} items</span> */}
